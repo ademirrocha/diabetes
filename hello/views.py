@@ -22,7 +22,7 @@ plt.xticks(['Negativos', 'Positivos'])
 plt.ylabel('Quantidade')
 plt.xlabel('Resultados')
 plt.title('Resuldos de casos com diabetes')
-plt.savefig("static/img/image1.jpg")
+plt.savefig("hello/static/img/image1.jpg")
 
 grf1 = df.head(5)
 
@@ -70,7 +70,7 @@ def plot_corr(df, size=18):
     ax.matshow(corr)   # color code the rectangles by correlation value
     plt.xticks(range(len(corr.columns)), corr.columns)  # draw x tick marks
     plt.yticks(range(len(corr.columns)), corr.columns)  # draw y tick marks
-    plt.savefig("static/img/image2.jpg")
+    plt.savefig("hello/static/img/image2.jpg")
 
 plot_corr(df)
 
