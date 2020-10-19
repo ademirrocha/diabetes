@@ -4,3 +4,6 @@ django-heroku
 Flask
 ipywidgets
 IPython
+pandas
+matplotlib
+numpy
