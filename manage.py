@@ -109,4 +109,4 @@ plot_corr(df)
 def hello(name=None):
     return render_template('index.html', df=df, grf1=grf1, display=display, HTML=HTML)
 
-app.run(host='0.0.0.0', port=8080)
+app.run(host='0.0.0.0', port=5000)
