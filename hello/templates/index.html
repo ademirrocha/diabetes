@@ -3,6 +3,36 @@
 
 {% block content %}
 
-<h1>Ademir Rocha</h1>
+<p>Este site foi desenvolvido Por Ademir, Angélica, ... Para analisar a base de dados disponível em: https://xxx.com para verificar a chances que um pacientes que possui certas características possa aquirir uma diabete</p>
+<hr>
+<h4>Quantidade de linhas X colunas da base de dados</h4>
+{{ df.shape }}
+
+<hr>
+
+<h4>Gráfico exibindo a quantidade de casos com diabetes positivos e negativos</h4>
+
+<img src="../static/img/image1.jpg" />
+<hr>
+
+<h4>Amostra dos 5 primeiros registros da base de dados</h4>
+
+
+
+<div id="div1">{{ grf1.to_html() }}</div>
+
+<hr>
+
+<h4>Verificando se há valores nulosa na base de dados</h4>
+
+{{df.isnull().values.any()}}
+
+
+<hr>
+
+<h4>Amostragem de correlação gráfica</h4>
+<p>A figura irá exibir a correlação entre os atributos, \nquanto mais escuro a cor, maior será a relação entre esses atributos.</p>
+
+<img style="width:80%;" src="../static/img/image2.jpg" />
 
 {% endblock %}

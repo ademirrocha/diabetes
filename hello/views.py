@@ -24,6 +24,8 @@ plt.xlabel('Resultados')
 plt.title('Resuldos de casos com diabetes')
 plt.savefig("static/img/image1.jpg")
 
+grf1 = df.head(5)
+
 
 #Transformação de dados
 #converter os valores do dataset de Yes e No para 1 e 0 respectivamente
@@ -76,10 +78,13 @@ plot_corr(df)
 
 
 
+
+
+
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "index.html")
+    return render(request, "index.html", {"df":df, "grf1":grf1})
 
 
 def db(request):
