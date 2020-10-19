@@ -13,6 +13,8 @@ import numpy as np
 #Importar o dataset csv
 df = pd.read_csv("data/diabetes_data_upload.csv")
 
+dfNull = df.isnull().values.any()
+
 countPositive = len(df.loc[df['class'] == 'Positive'])
 countNegative = len(df.loc[df['class'] == 'Negative'])
 print('Positives: ', countPositive)
@@ -84,7 +86,7 @@ plot_corr(df)
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "index.html", {"df":df, "grf1":grf1})
+    return render(request, "index.html", {"df":df, "grf1":grf1, 'dfNull':dfNull})
 
 
 def db(request):
