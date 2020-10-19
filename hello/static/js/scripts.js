@@ -25,18 +25,19 @@ function CriaRequest() {
 
 function setData(){
 
-	setTimeout("setDataStaticHtml1();", 1000);
-	setTimeout("setDataStaticHtml2();",2000);
+	setTimeout("setDataStaticHtml('grf1', 'grf1.html');", 1000);
+	setTimeout("setDataStaticHtml('grf2', 'grf2.html');",2000);
+	setTimeout("setDataStaticHtml('grf3', 'grf3.html');",3000);
 
 }
 
 
-function setDataStaticHtml1(){
-	var result = document.getElementById('grf1');
+function setDataStaticHtml($el, $file){
+	var result = document.getElementById($el);
 
 	xmlreq = CriaRequest();
 
-	xmlreq.open("GET", "static/html/grf1.html", true);
+	xmlreq.open("GET", "static/html/"+$file, true);
 	xmlreq.onreadystatechange = function(){
 		if (xmlreq.readyState == 4) {
 			if (xmlreq.status == 200) {

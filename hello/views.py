@@ -68,6 +68,11 @@ gender_map = {'Male': 1, 'Female': 0}
 df['Gender'] = df['Gender'].map(gender_map)
 df.head(5)
 
+grf3 = df.tail(5).to_html()
+text_file = open("hello/static/html/grf3.html", "w")
+text_file.write(grf3)
+text_file.close()
+
 
 #Amostragem de correlação gráfica
 #print('\n\nAmostragem de correlação gráfica')
