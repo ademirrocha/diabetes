@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #Importar o dataset csv
-df = pd.read_csv("data/diabetes_data_upload.csv")
+df = pd.read_csv("../data/diabetes_data_upload.csv")
 
 countPositive = len(df.loc[df['class'] == 'Positive'])
 countNegative = len(df.loc[df['class'] == 'Negative'])
