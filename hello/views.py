@@ -26,7 +26,15 @@ plt.xlabel('Resultados')
 plt.title('Resuldos de casos com diabetes')
 plt.savefig("hello/static/img/image1.jpg")
 
-grf1 = df.head(5)
+grf1 = df.head(5).to_html()
+text_file = open("hello/static/html/grf1.html", "w")
+text_file.write(grf1)
+text_file.close()
+
+grf2 = df.tail(5).to_html()
+text_file = open("hello/static/html/grf2.html", "w")
+text_file.write(grf2)
+text_file.close()
 
 
 #Transformação de dados
@@ -86,7 +94,7 @@ plot_corr(df)
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "index.html", {"df":df, "grf1":grf1, 'dfNull':dfNull})
+    return render(request, "index.html", {"df":df, 'dfNull':dfNull})
 
 
 def db(request):

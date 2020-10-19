@@ -24,11 +24,10 @@
 <hr>
 
 <h4>Amostra dos 5 primeiros registros da base de dados</h4>
-
-
-
-<div id="div1">{{ grf1 }}</div>
-
+<div id="grf1"><img width="25" src="../static/img/loading4.gif" /></div>
+<hr>
+<h4>Amostra dos 5 últimos registros da base de dados</h4>
+<div id="grf2"><img width="25" src="../static/img/loading4.gif" /></div>
 <hr>
 
 <h4>Verificando se há valores nulos na base de dados</h4>
@@ -42,5 +41,18 @@
 <p>A figura irá exibir a correlação entre os atributos, \nquanto mais escuro a cor, maior será a relação entre esses atributos.</p>
 
 <img style="width:80%;" src="../static/img/image2.jpg" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="../static/js/scripts.js"></script>
+
+	<script>
+
+		$( document ).ready(function() {
+
+			setData();
+
+		});
+
+	</script>
 
 {% endblock %}
