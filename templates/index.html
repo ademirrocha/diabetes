@@ -1,0 +1,288 @@
+<!doctype html>
+<title>Análise dados pacientes com tendência a ter diabetes</title>
+
+
+<p>Este site foi desenvolvido Por Ademir, Angélica, ... Para analisar a base de dados disponível em: https://xxx.com para verificar a chances que um pacientes que possui certas características possa aquirir uma diabete</p>
+<hr>
+<h4>Quantidade de linhas X colunas da base de dados</h4>
+{{ df.shape }}
+
+<hr>
+
+<h4>Gráfico exibindo a quantidade de casos com diabetes positivos e negativos</h4>
+
+<img src="../static/img/image1.jpg" />
+<hr>
+
+<h4>Amostra dos 5 primeiros registros da base de dados</h4>
+
+
+
+<div id="div1">{{ grf1.to_html() }}</div>
+
+<hr>
+
+<h4>Verificando se há valores nulosa na base de dados</h4>
+
+{{df.isnull().values.any()}}
+
+
+<hr>
+
+<h4>Amostragem de correlação gráfica</h4>
+<p>A figura irá exibir a correlação entre os atributos, \nquanto mais escuro a cor, maior será a relação entre esses atributos.</p>
+
+<img style="width:80%;" src="../static/img/image2.jpg" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $( document ).ready(function() {
+
+
+
+
+        $('#div1').html( $('#div1').html()).contents()
+
+        console.log(DOM( $('#div1').html()))
+
+
+    });
+
+
+</script>
+
+<!--
+
+
+
+
+
+
+
+#Podemos ver também a correlação numéricas entre os atributos
+print('Podemos ver também a correlação numéricas entre os atributos.')
+df.corr()
+
+#Verificação dos dados
+print('\n\nVerificar se há boa quantidade de itens nas duas classes (True/False) ',
+'\npara identificar se há ocorrência de evento raro, que necessita de aboradagens específicas. ',
+'\nPodemos perceber que há uma boa distribuição de valores, sem necessidade '
+'\nde abordagem para eventos raros.')
+
+num_true = len(df.loc[df['class'] == True])
+num_false = len(df.loc[df['class'] == False])
+print("Number of True cases:  {0} ({1:2.2f}%)".format(num_true, (num_true/ (num_true + num_false)) * 100))
+print("Number of False cases: {0} ({1:2.2f}%)".format(num_false, (num_false/ (num_true + num_false)) * 100))
+
+
+#Separando os dados
+print('\n\n Separando os dados \n 70% para treinamento e 30% para validação')
+from sklearn.model_selection import train_test_split
+
+feature_col_names = ['Polyuria', 'Polydipsia', 'sudden weight loss', 'weakness', 'Polyphagia', 'Genital thrush', 'visual blurring', 'Itching', 'Irritability', 'delayed healing', 'partial paresis', 'muscle stiffness', 'Alopecia', 'Obesity']
+predicted_class_names = ['class']
+
+X = df[feature_col_names].values
+y = df[predicted_class_names].values
+split_test_size = 0.30
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=split_test_size, random_state=42)
+#random_state: número aleatório para garantir divisões diferentes a cada execução
+
+print("{0:0.2f}% para treinamentro".format((len(X_train)/len(df.index)) * 100))
+print("{0:0.2f}% para teste".format((len(X_test)/len(df.index)) * 100))
+
+#Verificar que a distribuíção se mantém boa, não se alterando muito da base original
+print('\n\nPodemos verificar que a distribuíção se mantém boa, não se alterando muito da base original.')
+print("Original True : {0} ({1:0.2f}%)".format(len(df.loc[df['class'] == 1]), 100 * (len(df.loc[df['class'] == 1]) / len(df))))
+print("Original False : {0} ({1:0.2f}%)".format(len(df.loc[df['class'] == 0]), 100 * (len(df.loc[df['class'] == 0]) / len(df))))
+print("")
+print("Treino True : {0} ({1:0.2f}%)".format(len(y_train[y_train[:] == 1]), 100 * (len(y_train[y_train[:] == 1]) / len(y_train))))
+print("Treino False : {0} ({1:0.2f}%)".format(len(y_train[y_train[:] == 0]), 100 * (len(y_train[y_train[:] == 0]) / len(y_train))))
+print("")
+print("Teste True : {0} ({1:0.2f}%)".format(len(y_test[y_test[:] == 1]), 100 * (len(y_test[y_test[:] == 1]) / len(y_test))))
+print("Teste False : {0} ({1:0.2f}%)".format(len(y_test[y_test[:] == 0]), 100 * (len(y_test[y_test[:] == 0]) / len(y_test))))
+
+
+import sklearn.preprocessing as pp
+
+fill_0 = pp.scale( df, axis=0, with_mean=1, with_std=1, copy=1)
+
+df2 = df
+df = pd.DataFrame(df, columns=list(df.columns.values))
+
+df.head(5)
+
+#Criar classificador
+print('\n\nCriação de classificadores')
+
+#Classificador Naive Bayes
+print('\nClassificador Naive Bayes')
+from sklearn.naive_bayes import GaussianNB
+
+nb_model = GaussianNB()
+nb_model.fit(X_train, y_train.ravel())
+
+#Acurácia de treinamento
+print('\nAcurácia dos dados de treinamento')
+from sklearn import metrics
+
+nb_predict_train = nb_model.predict(X_train)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_train, nb_predict_train)))
+
+#Acurácia de teste
+print('\nAcurácia dos dados de teste')
+nb_predict_test = nb_model.predict(X_test)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_test, nb_predict_test)))
+
+#Métricas de avaliação
+print('\nMétricas de avaliação')
+
+print("Confusion Matrix")
+print("{0}".format(metrics.confusion_matrix(y_test, nb_predict_test)))
+print("")
+print("Classification Report")
+print(metrics.classification_report(y_test, nb_predict_test))
+
+#Classificador Random Forest
+print('\nClassificador Random Forest')
+from sklearn.ensemble import RandomForestClassifier
+
+rf_model = RandomForestClassifier(random_state = 42)
+rf_model.fit(X_train, y_train.ravel())
+
+#Acurácia de treinamento
+print('\nAcurácia dos dados de treinamento')
+rf_predict_train = rf_model.predict(X_train)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_train, rf_predict_train)))
+
+#Acurácia de teste
+print('\nAcurácia dos dados de teste')
+rf_predict_test = rf_model.predict(X_test)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_test, rf_predict_test)))
+
+#Métricas de avaliação
+print('\nMétricas de avaliação')
+
+print("Confusion Matrix")
+print("{0}".format(metrics.confusion_matrix(y_test, rf_predict_test)))
+print("")
+print("Classification Report")
+print(metrics.classification_report(y_test, rf_predict_test))
+
+
+#Classificador Logistic Regression
+print('\nClassificador Logistic Regression')
+from sklearn.linear_model import LogisticRegression
+
+lr_model = LogisticRegression(C = 0.7, random_state = 42)
+lr_model.fit(X_train, y_train.ravel())
+lr_predict_test = lr_model.predict(X_test)
+
+#Acurácia de treinamento
+print('\nAcurácia dos dados de treinamento')
+lr_predict_train = lr_model.predict(X_train)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_train, lr_predict_train)))
+
+#Acurácia de teste
+print('\nAcurácia dos dados de teste')
+lr_predict_test = lr_model.predict(X_test)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_test, lr_predict_test)))
+
+#Métricas de avaliação
+print('\nMétricas de avaliação')
+
+print("Confusion Matrix")
+print("{0}".format(metrics.confusion_matrix(y_test, lr_predict_test)))
+print("")
+print("Classification Report")
+print(metrics.classification_report(y_test, lr_predict_test))
+
+
+#Regularização do hiperparâmetro
+print('\n\nRegularização do hiperparâmetro')
+C_start = 0.01
+C_end = 15
+C_inc = 0.1
+
+C_values, recall_scores = [], []
+
+C_val = C_start
+best_recall_score = 0
+
+while C_val < C_end:
+    C_values.append(C_val)
+    lr_model_loop = LogisticRegression(C = C_val, random_state = 42)
+    lr_model_loop.fit(X_train, y_train.ravel())
+    lr_predict_loop_test = lr_model_loop.predict(X_test)
+    recall_score = metrics.recall_score(y_test, lr_predict_loop_test)
+    recall_scores.append(recall_score)
+    if recall_score > best_recall_score:
+        best_recall_score = recall_score
+        best_lr_predict_test = lr_predict_loop_test
+    C_val = C_val + C_inc
+
+best_score_C_val = C_values[recall_scores.index(best_recall_score)]
+print("1st max value of {0:.3f} occured at C = {1:.3f}".format(best_recall_score, best_score_C_val))
+
+plt.plot(C_values, recall_scores, "-")
+plt.xlabel("C value")
+plt.ylabel("recall score")
+
+
+#Logist Regression Balanced
+print('\n\nLogist Regression Balanced')
+C_start = 0.001
+C_end = 15
+C_inc = 0.1
+
+C_values, recall_scores = [], []
+
+C_val = C_start
+best_recall_score = 0
+
+while C_val < C_end:
+    C_values.append(C_val)
+    lr_model_loop = LogisticRegression(C = C_val, class_weight = "balanced", random_state = 42)
+    lr_model_loop.fit(X_train, y_train.ravel())
+    lr_predict_loop_test = lr_model_loop.predict(X_test)
+    recall_score = metrics.recall_score(y_test, lr_predict_loop_test)
+    recall_scores.append(recall_score)
+    if recall_score > best_recall_score:
+        best_recall_score = recall_score
+        best_lr_predict_test = lr_predict_loop_test
+    C_val = C_val + C_inc
+
+best_score_C_val = C_values[recall_scores.index(best_recall_score)]
+print("1st max value of {0:.3f} occured at C = {1:.3f}".format(best_recall_score, best_score_C_val))
+
+plt.plot(C_values, recall_scores, "-")
+plt.xlabel("C value")
+plt.ylabel("recall score")
+
+#Incluindo parâmetro de regularização c = 0,301
+
+from sklearn.linear_model import LogisticRegression
+
+lr_model = LogisticRegression(C = 0.301, class_weight = "balanced", random_state = 42)
+lr_model.fit(X_train, y_train.ravel())
+lr_predict_test = lr_model.predict(X_test)
+
+
+#Acurácia de treinamento
+print('\nAcurácia dos dados de treinamento')
+lr_predict_train = lr_model.predict(X_train)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_train, lr_predict_train)))
+
+#Acurácia de teste
+print('\nAcurácia dos dados de teste')
+lr_predict_test = lr_model.predict(X_test)
+print("Acurácia: {0:.4f}".format(metrics.accuracy_score(y_test, lr_predict_test)))
+
+
+print('\n\n\n')
+
+-->
+
